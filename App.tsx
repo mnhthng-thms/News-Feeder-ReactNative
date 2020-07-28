@@ -1,11 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { constructEndpoint } from './src/api/getNews'
 
 export default function App() {
+  
+  const query: (Readonly<Query>) = {
+    kind: 'everything',
+    q: 'web-development',
+    sortBy: 'popularity',
+    sources: [
+      'bbc.com', 
+      'cnn.com'
+    ]
+  }
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <Text>{constructEndpoint(query)}</Text>
       <StatusBar style="auto" />
     </View>
   );
