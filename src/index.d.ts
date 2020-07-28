@@ -27,6 +27,7 @@ type BaseSource = {
 type Query = EverythingQuery | TopHeadlineQuery | SourceQuery 
 
 type Article = {
+  title: string,
   source: BaseSource, 
   author: string, 
   description: string, 
