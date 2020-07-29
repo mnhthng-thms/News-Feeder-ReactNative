@@ -1,3 +1,5 @@
+/* Foundational Definitions */
+
 type Datetime = string    // ! more on this later
 type PageSize = number    // 20 is default, 100 is maximum
 type PageNumber = number  // natural number
@@ -85,3 +87,4 @@ type ErrorResponse = {
 }
 
 type Response = OkResponse | ErrorResponse
+

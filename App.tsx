@@ -1,16 +1,19 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-import { List, Surface, DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 import Colours from './src/styles/Colours'
-import AllNewsScreen from './src/screens/AllNewsScreen'
+import { NavigationContainer } from '@react-navigation/native'
+import TopTabNavigator from './src/navigation/TopTabNavigator'
 
 export default function App () {
 
   return (
     <PaperProvider theme={theme}>
-        <StatusBar style="auto" />
-        <AllNewsScreen/>
+      <StatusBar style='light'/>
+      <NavigationContainer>
+        <TopTabNavigator />
+      </NavigationContainer>
     </PaperProvider>
   );
 }

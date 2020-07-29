@@ -1,35 +1,20 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
-import { Avatar, Card, Title, Paragraph } from 'react-native-paper'
+import { StyleSheet, View, Text } from 'react-native'
 import { BorderlessButton, TouchableOpacity } from 'react-native-gesture-handler'
 import Colours from '../styles/Colours'
 import * as dt from '../utils/datetime'
 
+/* Reference for replacing Card.Cover: 
+    https://github.com/callstack/react-native-paper/blob/212aa73715f157e1a77f8738859a608a543ba04c/src/components/Card/CardCover.tsx
+*/
+
 export default function AllNewsScreen () {
   return (
-    <Card style={styles.card}>
-      <BorderlessButton>
-        <Card.Title
-          title='Using Babel transforms to inject analytics code at Build Time'
-          subtitle={`Heap.io at ${dt.getDate('2020-07-06T17:46:47Z')}`}
-        />
-      </BorderlessButton>
-      <TouchableOpacity
-        activeOpacity={0.8}
-      >
-        <Card.Cover
-          style={styles.coverContainer}
-          source={{ uri: 'https://heap.io/wp-content/uploads/2020/06/Heap-Engineering-Header-1024x538.png' }}
-        />
-      </TouchableOpacity>
-      <BorderlessButton>
-        <Card.Content style={styles.content}>
-          <Paragraph>
-            In late 2018, we decided to add first-class support for React Native in Heap. This meant bringing Heap’s autocapture philosophy to the React Native platform: installing Heap on a React Native app sho… [+11404 chars]
-        </Paragraph>
-        </Card.Content>
-      </BorderlessButton>
-    </Card>
+    <View style={styles.card}>
+      <Text style={styles.content}>
+        All News displayed here
+      </Text>
+    </View>
   )
 }
 
