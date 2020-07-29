@@ -2,7 +2,7 @@
 
 `Still In Progess`
 
-Code submission for the 4th week's assignment of the 2020 React Native course organised by *Facebook Developers' Circle Hanoi*.
+Code submission for the 5th week's assignment of the 2020 React Native course organised by *Facebook Developers' Circle Hanoi*.
 
 ## Screenshots
 

@@ -1,36 +1,24 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import { StatusBar } from 'expo-status-bar'
-import { DefaultTheme, Provider as PaperProvider, Appbar } from 'react-native-paper'
-import Colours from './src/styles/Colours'
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper'
 import { NavigationContainer } from '@react-navigation/native'
+import { useMachine } from '@xstate/react'
+
+import Colours from './src/styles/Colours'
+import NavigationMachine from './src/machines/navigationMachine'
 import TopTabNavigator from './src/navigation/TopTabNavigator'
-import { STATUS_BAR_HEIGHT } from './src/helpers/Constants'
+import Header from './src/components/Header'
 
 export default function App () {
-
+  const [navMachineState, navMachineSend] = useMachine(NavigationMachine)
+  
   return (
     <PaperProvider theme={theme}>
       <StatusBar style='light'/>
-      <Appbar.Header
-        statusBarHeight={STATUS_BAR_HEIGHT}
-        style={{
-          backgroundColor: Colours.Sapphire,
-          height: STATUS_BAR_HEIGHT * 1.618, 
-          paddingBottom: STATUS_BAR_HEIGHT * 0.1,
-          alignItems: 'flex-end'
-        }}
-      >
-        <Appbar.Content 
-          titleStyle={{
-            fontWeight: 'bold', 
-            letterSpacing: 0.5
-          }}
-          title={'HEADLINES'}
-        />
-      </Appbar.Header>
+      <Header navMachineState={navMachineState}/>
       <NavigationContainer>
-        <TopTabNavigator />
+        <TopTabNavigator navMachineSend={navMachineSend}/>
       </NavigationContainer>
     </PaperProvider>
   );

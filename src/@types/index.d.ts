@@ -26,8 +26,6 @@ type BaseSource = {
   name: string
 }
 
-type Query = EverythingQuery | TopHeadlineQuery | SourceQuery 
-
 type Article = {
   title: string,
   source: BaseSource, 
@@ -44,6 +42,8 @@ type Source = BaseSource & Omit<SourceQuery, 'kind'> & {
   url?: string
 }
 
+type Query = EverythingQuery | TopHeadlineQuery | SourceQuery 
+
 type SourceQuery = {
   kind: 'sources',
   category?: Category, 
@@ -55,19 +55,20 @@ type BaseArticleQuery = {
   q?: SearchKeyword, 
   pageSize?: PageSize, 
   page?: PageNumber,
+  sources?: Array<SourceId>
 }
 
 type EverythingQuery = BaseArticleQuery & {
   kind: 'everything',
   qInTitle?: string,  
   language?: LanguageCode,
-  sources?: Array<SourceId>, 
-  sortBy?: SortCriteria 
 }
 
 type TopHeadlineQuery = BaseArticleQuery & {
   kind: 'top-headlines',
+  category?: Category, 
   country?: CountryCode,
+  sortBy?: SortCriteria,
 }
 
 type BaseOkResponse = {
