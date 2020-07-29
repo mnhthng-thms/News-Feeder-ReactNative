@@ -2,6 +2,7 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { MaterialTopTabParamList } from '../@types/navigation'
+import { ActivityIndicator } from 'react-native-paper'
 import NewsScreen from '../screens/NewsScreen'
 import AllNews from '../screens/AllNewsScreen'
 import { 
@@ -12,8 +13,6 @@ import {
   FontAwesome5 
 } from '@expo/vector-icons'
 import Colours from '../styles/Colours'
-import { STATUS_BAR_HEIGHT } from '../helpers/Constants'
-
 
 const Tab = createMaterialTopTabNavigator<MaterialTopTabParamList>()
 
@@ -21,6 +20,8 @@ const TopTabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName='AllNews'
+      lazy={true}
+      lazyPlaceholder={() => (<ActivityIndicator animating={true}/>)}
       tabBarOptions={{
         style: styles.topNavBar,
         inactiveTintColor: Colours.Sapphire,
@@ -134,7 +135,6 @@ const styles = StyleSheet.create({
     borderColor: Colours.White
   },
   topNavBar: {
-    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colours.Sapphire,
     borderBottomWidth: 2,
     borderBottomColor: Colours.Purple1

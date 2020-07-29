@@ -5,7 +5,7 @@ enum Colours {
   RedVenetian = "#C80815", 
   RoyalBlue = "#497AFC", 
   Sapphire = "#071A52",
-  ToryBlue = "#2E4EA2", 
+  ToryBlue = "#2E4EA2",
   White = "#FFFFFF"
 }
 

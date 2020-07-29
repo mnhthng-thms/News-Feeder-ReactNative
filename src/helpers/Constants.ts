@@ -16,6 +16,6 @@ export const SCREEN_HEIGHT = window.height
 const hasNotch = SCREEN_WIDTH > 736 && !(Platform.isTV)
 
 export const STATUS_BAR_HEIGHT = Platform.select({
-  android: StatusBar.currentHeight,
+  android: StatusBar.currentHeight || 0,
   ios: hasNotch ? 44 : 20
-})
+}) as number
