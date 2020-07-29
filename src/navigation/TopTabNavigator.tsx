@@ -1,11 +1,19 @@
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import { Ionicons, FontAwesome, MaterialCommunityIcons, Fontisto, FontAwesome5 } from '@expo/vector-icons'
+import { MaterialTopTabParamList } from '../@types/navigation'
 import NewsScreen from '../screens/NewsScreen'
 import AllNews from '../screens/AllNewsScreen'
-import { MaterialTopTabParamList } from '../@types/navigation'
+import { 
+  Ionicons, 
+  FontAwesome, 
+  MaterialCommunityIcons, 
+  Fontisto, 
+  FontAwesome5 
+} from '@expo/vector-icons'
 import Colours from '../styles/Colours'
+import { STATUS_BAR_HEIGHT } from '../helpers/Constants'
+
 
 const Tab = createMaterialTopTabNavigator<MaterialTopTabParamList>()
 
@@ -30,8 +38,8 @@ const TopTabNavigator = () => {
         options={{
           tabBarIcon: ({focused}) => {
             return focused ? 
-              (<FontAwesome name='globe' size={26} color={Colours.White}/>) :
-              (<Ionicons name='ios-globe' size={26} color={Colours.Purple1}/>)
+              (<Fontisto name='fire' size={24} color={Colours.White}/>) :
+              (<FontAwesome name='home' size={26} color={Colours.Purple1}/>)
           }
         }}
       />
@@ -126,7 +134,7 @@ const styles = StyleSheet.create({
     borderColor: Colours.White
   },
   topNavBar: {
-    paddingTop: 20,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colours.Sapphire,
     borderBottomWidth: 2,
     borderBottomColor: Colours.Purple1
