@@ -9,6 +9,7 @@ import Colours from './src/styles/Colours'
 import NavigationMachine from './src/machines/navigationMachine'
 import TopTabNavigator from './src/navigation/TopTabNavigator'
 import Header from './src/components/Header'
+import { NavContext } from './src/contexts'
 
 export default function App () {
   const [navMachineState, navMachineSend] = useMachine(NavigationMachine)
@@ -16,10 +17,12 @@ export default function App () {
   return (
     <PaperProvider theme={theme}>
       <StatusBar style='light'/>
-      <Header navMachineState={navMachineState}/>
+      <NavContext.Provider value={{state: navMachineState, send: navMachineSend}}>
+      <Header/>
       <NavigationContainer>
-        <TopTabNavigator navMachineSend={navMachineSend}/>
+        <TopTabNavigator/>
       </NavigationContainer>
+      </NavContext.Provider>
     </PaperProvider>
   );
 }

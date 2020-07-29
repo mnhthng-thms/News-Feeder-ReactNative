@@ -1,14 +1,17 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import { NewsScreenProps } from '../@types/navigation'
+import { NavContext } from '../contexts'
 
-const NewsScreen = (props: NewsScreenProps & { navMachineSend: Function }) => {
-  const { navigation, route, navMachineSend } = props
+const NewsScreen = (props: NewsScreenProps) => {
+  const hookPair = useContext(NavContext)
+  const { send } = hookPair
+  const { navigation, route } = props
   const { category } = route.params
 
   useEffect(() => {
     return navigation.addListener('tabPress', () => {
-      navMachineSend('UpdateHeader', { category })
+      send('UpdateHeader', { category })
     })
   }, [navigation])
 

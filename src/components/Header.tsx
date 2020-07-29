@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Appbar } from 'react-native-paper'
 import Colours from '../styles/Colours'
 import { STATUS_BAR_HEIGHT } from '../helpers/Constants'
 
-export default function Header (props: {navMachineState: unknown}) {
-  const { navMachineState } = props
-  // @ts-ignore
-  const { header } = navMachineState.context
+import { NavContext } from '../contexts'
+
+export default function Header () {
+  const hookPair = useContext(NavContext)
+  const {state} = hookPair 
 
   return (
     <Appbar.Header
@@ -23,7 +24,7 @@ export default function Header (props: {navMachineState: unknown}) {
             fontWeight: 'bold', 
             letterSpacing: 0.5
           }}
-          title={header.toUpperCase()}
+          title={state.context.header.toUpperCase()}
         />
       </Appbar.Header>
   )
