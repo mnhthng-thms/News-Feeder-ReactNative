@@ -1,7 +1,5 @@
-import React, { createContext } from 'react'
-import navigationMachine from './machines/navigationMachine'
-import { useMachine } from '@xstate/react'
+import React, { createContext, useState } from 'react'
 
-const [state, send] = useMachine(navigationMachine)
+const [header, setHeader] = useState('Headlines')
 
-export const NavContext = createContext({state, send})
+export const NavContext = createContext({header, setHeader})

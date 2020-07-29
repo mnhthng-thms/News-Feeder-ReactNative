@@ -14,12 +14,12 @@ export default function AllNewsScreen () {
   const [visible, setVisible] = useState(true)
   const navigation = useNavigation()
 
-  const navMachineHookPair = useContext(NavContext)
-  const { send } = navMachineHookPair
+  const hookPair = useContext(NavContext)
+  const { setHeader } = hookPair
 
   useEffect(() => {
     return navigation.addListener('tabPress', () => {
-      send('UpdateHeader', { category : 'Headlines' })
+      setHeader('Headlines')
     })
   }, [navigation])
 

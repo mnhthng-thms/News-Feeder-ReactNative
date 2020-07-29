@@ -7,7 +7,7 @@ import { NavContext } from '../contexts'
 
 export default function Header () {
   const hookPair = useContext(NavContext)
-  const {state} = hookPair 
+  const {header} = hookPair 
 
   return (
     <Appbar.Header
@@ -24,7 +24,7 @@ export default function Header () {
             fontWeight: 'bold', 
             letterSpacing: 0.5
           }}
-          title={state.context.header.toUpperCase()}
+          title={header.toUpperCase()}
         />
       </Appbar.Header>
   )

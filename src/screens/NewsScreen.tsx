@@ -5,13 +5,13 @@ import { NavContext } from '../contexts'
 
 const NewsScreen = (props: NewsScreenProps) => {
   const hookPair = useContext(NavContext)
-  const { send } = hookPair
+  const { setHeader } = hookPair
   const { navigation, route } = props
   const { category } = route.params
 
   useEffect(() => {
     return navigation.addListener('tabPress', () => {
-      send('UpdateHeader', { category })
+      setHeader(category)
     })
   }, [navigation])
 
