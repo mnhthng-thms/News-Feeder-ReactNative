@@ -6,8 +6,7 @@ import { STATUS_BAR_HEIGHT } from '../helpers/Constants'
 import { NavContext } from '../contexts'
 
 export default function Header () {
-  const hookPair = useContext(NavContext)
-  const {header} = hookPair 
+  const { header } = useContext(NavContext)
 
   return (
     <Appbar.Header

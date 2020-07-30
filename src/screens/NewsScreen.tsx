@@ -4,8 +4,7 @@ import { NewsScreenProps } from '../@types/navigation'
 import { NavContext } from '../contexts'
 
 const NewsScreen = (props: NewsScreenProps) => {
-  const hookPair = useContext(NavContext)
-  const { setHeader } = hookPair
+  const { setHeader } = useContext(NavContext)
   const { navigation, route } = props
   const { category } = route.params
 

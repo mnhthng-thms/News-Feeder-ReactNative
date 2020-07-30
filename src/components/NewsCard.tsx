@@ -10,7 +10,7 @@ const NewsCard = (props: Article) => {
   const author = props.author || props.source.name || props.source.id
   const { title, url, urlToImage, publishedAt, content } = props
 
-  /* Reference for replacing Card.Cover: 
+  /* @Reference for replacing Card.Cover: 
     https://github.com/callstack/react-native-paper/blob/212aa73715f157e1a77f8738859a608a543ba04c/src/components/Card/CardCover.tsx
   */
   return (

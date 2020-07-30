@@ -1,18 +1,29 @@
-import { EventObject } from 'xstate'
+import { EventObject, StateSchema, DoneEventObject } from 'xstate'
 
 /* In this case, using `interface` is semantically more precise than using `type` */
 
-export interface NavMachineContext {
-  header: string
+export interface FetchMachineContext {
+  lastQuery: TopHeadlineQuery | undefined,
+  lastResponse: ArticlesOkResponse | ErrorResponse | undefined,
+  numPages: number, 
+  currentPage: number
 }
 
-export interface NavMachineStateSchema {
+export interface FetchMachineStateSchema extends StateSchema {
   states: {
-    'NORMAL': {}
+    'IDLE': {},
+    'LOADING': {},
+    'RESPONDED': {
+      states: {
+        'OK': {}, 
+        'ERROR': {}
+      }
+    },
+    'FAILURE': {}
   }
 }
 
-export interface NavMachineEvent extends EventObject {
-  type: 'UpdateHeader',
-  category: string
+export interface FetchMachineEvent extends EventObject extends DoneEventObject  {
+  type: 'FETCH' | 'RETRY', 
+  query?: TopHeadlineQuery
 }

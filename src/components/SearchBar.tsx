@@ -6,7 +6,7 @@ import Colours from '../styles/Colours'
 
 export default function SearchBar () {
   const [searchQuery, setSearchQuery] = useState('')
-  const [filterStatus, setFilterStatus] = useState<'checked' | 'unchecked' | undefined>('checked')
+  const [filterStatus, setFilterStatus] = useState<'checked' | 'unchecked' | undefined>('unchecked')
   const _isFilterChecked = () => filterStatus === 'checked'
   const _filterOnPressed = () => {
     setFilterStatus(_isFilterChecked() ? 'unchecked' : 'checked')

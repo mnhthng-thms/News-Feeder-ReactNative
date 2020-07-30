@@ -1,4 +1,4 @@
-/* Reference:  
+/* @Reference:  
     https://github.com/callstack/react-native-paper/blob/master/src/constants.ts
 */
 
