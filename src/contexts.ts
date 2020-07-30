@@ -1,5 +1,8 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext } from 'react'
+interface NavContextSchema {
+  header: string, 
+  // type of 2nd array element returned by useState<string>
+  setHeader: React.Dispatch<React.SetStateAction<string>>
+}
 
-const [header, setHeader] = useState('Headlines')
-
-export const NavContext = createContext({header, setHeader})
+export const NavContext = createContext({ header: 'Headlines' } as NavContextSchema)

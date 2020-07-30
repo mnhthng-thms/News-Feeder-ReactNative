@@ -10,13 +10,13 @@ import Header from './src/components/Header'
 import { NavContext } from './src/contexts'
 
 export default function App () {
-  const [header, setHeader] = useState('Headlines')
+  const [header, setHeader] = useState<string>('Headlines')
 
   return (
     <PaperProvider theme={theme}>
       <StatusBar style='light' />
       <NavContext.Provider value={{ header, setHeader }}>
-        <Header />
+        <Header/>
         <NavigationContainer>
           <TopTabNavigator />
         </NavigationContainer>
