@@ -6,6 +6,12 @@ import { BorderlessButton, TouchableOpacity } from 'react-native-gesture-handler
 import Colours from '../styles/Colours'
 import * as dt from '../utils/datetime'
 
+const altImageURL: string = [
+  'https://images.unsplash.com/photo-1504711434969-e33886168f5c?',
+  'ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9',
+  '&auto=format&fit=crop&w=350&q=80'
+].join('')
+
 const NewsCard = (props: Article) => {
   const author = props.author || props.source.name || props.source.id
   const { title, url, urlToImage, publishedAt, content } = props
@@ -29,14 +35,16 @@ const NewsCard = (props: Article) => {
       >
         <Card.Cover
           style={styles.coverContainer}
-          source={{ uri: urlToImage }}
+          source={{ uri: urlToImage || altImageURL }}
         />
       </TouchableOpacity>
       <BorderlessButton
         onPress={() => openURL(url)}
       >
         <Card.Content style={styles.content}>
-          <Paragraph>
+          <Paragraph
+            style={styles.paragraphTxt}
+          >
             {content}
           </Paragraph>
         </Card.Content>
@@ -57,10 +65,12 @@ const styles = StyleSheet.create({
     borderTopStartRadius: 50,
     borderBottomStartRadius: 10,
     borderTopEndRadius: 10,
-    borderWidth: 0.5,
   },
   content: {
     paddingTop: 3
+  },
+  paragraphTxt: {
+    textAlign: 'justify'
   }
 })
 

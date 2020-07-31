@@ -26,7 +26,7 @@ const buildURLEndpoint = (query: Query) => {
 
 const getFromURL = (url: string) => {
   const _getErrorCode = (err: AxiosError) => err.response?.status
-  return axios.get(url).then(prop('data')).catch(console.error)
+  return axios.get(url).then(prop('data'))
 }
 
 export {
