@@ -28,9 +28,6 @@ const fetchMachine = Machine<
           'FETCH': {
             target: 'LOADING',
             actions: ['updateLastQuery']
-          },
-          'PREPARE': {
-            actions: ['updateLastQuery']
           }
         }
       },
@@ -39,50 +36,56 @@ const fetchMachine = Machine<
           id: 'getData',
           src: (context) => getFromURL(buildURLEndpoint(context.lastQuery as Query)),
           onDone: {
-       /* - target: 'IDLE' */
+            /* - target: 'IDLE' */
             target: 'RESPONDED',
             actions: assign({
               lastResponse: (_, event) => event.data,
             })
           },
           onError: {
-       /* - target: 'IDLE' */
+            /* - target: 'IDLE' */
             target: 'FAILURE'
           }
         }
       },
       'RESPONDED': {
-        states: {
-          /* @Reference: https://github.com/davidkpiano/xstate/issues/965 */
-          'OK': { type: 'final' as const },
-          'ERROR': { type: 'final' as const }
-        }, 
+        always: [
+          {
+            target: 'OK',
+            cond: 'isResponseStatusOk',
+          },
+          {
+            target: 'ERROR',
+            cond: 'isResponseStatusError',
+          }
+        ],
+      },
+      'OK': {
+        entry: assign<FetchMachineContext, FetchMachineEvent>({
+          numPages: (context) =>
+            Math.ceil(
+              (context.lastResponse as ArticlesOkResponse).totalResults /
+              ITEMS_PER_PAGE
+            ),
+          currentPage: (context) => context.lastQuery?.page || 1
+        }),
         on: {
-          // @ts-ignore
-          always: [
-            {
-              target: '.OK',
-              cond: 'isResponseStatusOk',
-              actions: assign<FetchMachineContext,FetchMachineEvent>({
-                // @ts-ignore
-                numPages: (context) => Math.ceil(context.lastResponse.totalResults / ITEMS_PER_PAGE),
-                currentPage: (context) => context.lastQuery?.page || 1
-              })
-            },
-            {
-              target: '.ERROR',
-              cond: 'isResponseStatusError',
-              // @ts-ignore
-              actions: assign<FetchMachineContext,FetchMachineEvent>({
-                numPages: 0,
-                currentPage: 0,
-              })
-            }
-          ],
           'FETCH': {
             target: 'LOADING',
             actions: ['updateLastQuery']
-          },
+          }
+        }
+      },
+      'ERROR': {
+        entry: assign<FetchMachineContext, FetchMachineEvent>({
+          numPages: 0,
+          currentPage: 0,
+        }),
+        on: {
+          'FETCH': {
+            target: 'LOADING',
+            actions: ['updateLastQuery']
+          }
         }
       },
       'FAILURE': {
@@ -101,9 +104,9 @@ const fetchMachine = Machine<
     },
     guards: {
       // @ts-ignore
-      isResponseStatusOk: (context, event) => context.lastResponse.status === 'ok',
+      isResponseStatusOk: (context) => context.lastResponse.status == 'ok',
       // @ts-ignore
-      isResponseStatusError: (context, event) => context.lastResponse.status === 'error'
+      isResponseStatusError: (context) => context.lastResponse.status == 'error'
     }
   }
 )

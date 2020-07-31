@@ -73,11 +73,16 @@ type TopHeadlineQuery = BaseArticleQuery & {
 
 type BaseOkResponse = {
   status: 'ok',
-  totalResults: number
 }
 
-type ArticlesOkResponse = BaseOkResponse & { articles: Array<Article> }
-type SourcesOkResponse = BaseOkResponse & { articles: Array<Source> }
+type ArticlesOkResponse = BaseOkResponse & {
+  totalResults: number
+  articles: Array<Article> 
+}
+
+type SourcesOkResponse = BaseOkResponse & {
+  sources: Array<Source> 
+}
 
 type OkResponse = ArticlesOkResponse | SourcesOkResponse
 

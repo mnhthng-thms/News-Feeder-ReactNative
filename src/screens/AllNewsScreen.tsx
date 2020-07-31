@@ -17,7 +17,9 @@ console.disableYellowBox = true
 const fetchService = interpret(fetchMachine)
 fetchService.start()
 
-fetchService.subscribe((state) => console.log(state))
+fetchService
+  .onTransition(state => console.log('STATE: ', state))
+  .onEvent(event => console.log('EVENT: ', event))
 
 export default function AllNewsScreen () {
   const [fetchMState, fetchMSend] = useService(fetchService)
@@ -44,11 +46,19 @@ export default function AllNewsScreen () {
   }, [])
 
   useEffect(() => {
-    if (_getFromContext('lastResponse')) {
-      setArticles(_getFromContext('lastResponse')['articles'])
+    switch(fetchMState.value) {
+      case 'OK': 
+        setArticles(_getFromContext('lastResponse')['articles'])
+      case 'ERROR': 
+        console.log('Show react-native-paper Banner and ask if user want to retry')
+      case 'FAILURE': 
+        console.log('Show react-native-paper Banner and ask if user want to retry')
     }
   }, [fetchMState])
 
+  /* @TODO:
+    When user switches to this tab, the header title will be changed to `HEADLINES`
+  */
   useEffect(() => {
     // @ts-ignore
     return navigation.addListener('tabPress', () => {
@@ -93,10 +103,9 @@ const styles = StyleSheet.create({
   },
 
   body: {
-    flex: 9,
+    flex: 11,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 5,
     elevation: 7
   },
 }) 

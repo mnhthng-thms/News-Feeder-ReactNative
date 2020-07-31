@@ -1,4 +1,4 @@
-import { EventObject, StateSchema, DoneEventObject } from 'xstate'
+import { EventObject, StateSchema, DoneEventObject, MachineConfig } from 'xstate'
 
 /* In this case, using `interface` is semantically more precise than using `type` */
 
@@ -14,11 +14,15 @@ export interface FetchMachineStateSchema extends StateSchema {
     'IDLE': {},
     'LOADING': {},
     'RESPONDED': {},
+    'OK': {},
+    'ERROR': {},
     'FAILURE': {}
   }
 }
 
 export interface FetchMachineEvent extends EventObject extends DoneEventObject  {
-  type: 'FETCH' | 'RETRY' | 'PREPARE', 
-  query?: TopHeadlineQuery
+  type: 'FETCH' | 'RETRY' | 'JUDGE', 
+  query?: TopHeadlineQuery,
+  lastResponse?: ArticlesOkResponse | ErrorResponse
+  lastQuery?: TopHeadlineQuery 
 }
