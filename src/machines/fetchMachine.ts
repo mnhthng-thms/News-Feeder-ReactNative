@@ -36,19 +36,20 @@ const fetchMachine = Machine<
           id: 'getData',
           src: (context) => getFromURL(buildURLEndpoint(context.lastQuery as Query)),
           onDone: {
-            /* - target: 'IDLE' */
             target: 'RESPONDED',
             actions: assign({
               lastResponse: (_, event) => event.data,
             })
           },
           onError: {
-            /* - target: 'IDLE' */
             target: 'FAILURE'
           }
         }
       },
       'RESPONDED': {
+        /* Response received from `NewsAPI` can be either `OkResponse` or 
+           `ErrorResponse`. For further information, please check `index.d.ts`. 
+        */
         always: [
           {
             target: 'OK',
@@ -82,6 +83,10 @@ const fetchMachine = Machine<
           currentPage: 0,
         }),
         on: {
+          /* The machine reaches this state when & only when there is  
+             unresolved issue(s) with the last query, possibly 4xx response codes. 
+             The machine should be waiting for another query from user.
+          */
           'FETCH': {
             target: 'LOADING',
             actions: ['updateLastQuery']
@@ -89,6 +94,7 @@ const fetchMachine = Machine<
         }
       },
       'FAILURE': {
+        /* Possibly 5xx response code */
         on: {
           'RETRY': 'LOADING'
         }

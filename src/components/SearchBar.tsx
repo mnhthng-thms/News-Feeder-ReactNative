@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     borderColor: Colours.RedVenetian,
     marginLeft: 2 + '%',
     marginRight: 1 + '%',
-    marginVertical: 2 + '%'
+    marginVertical: 2 + '%',
+    backgroundColor: 'transparent'
   },
   searchField: {
     flex: 7,

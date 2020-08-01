@@ -55,7 +55,11 @@ const NewsCard = (props: Article) => {
 
 const styles = StyleSheet.create({
   card: {
-    borderColor: Colours.RedVenetian,
+    backgroundColor: Colours.White,
+    borderBottomEndRadius: 15,
+    borderTopStartRadius: 15,
+    borderBottomStartRadius: 9,
+    borderTopEndRadius: 9,
     margin: 1 + '%',
     padding: 1 + '%',
     elevation: 3

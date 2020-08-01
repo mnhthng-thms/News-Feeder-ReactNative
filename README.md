@@ -9,7 +9,7 @@ Code submission for the 5th week's assignment of the 2020 React Native course or
 
 ## Features
 
-- [x] Different tabs for different category of news articles
+- [x] Different tabs for different categories of news articles
 - [ ] Pull to update/Infiinite scrolling/Pagination
 - [ ] Cacheable image component
 

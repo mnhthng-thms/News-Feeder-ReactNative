@@ -1,12 +1,13 @@
 // @ts-nocheck
 import React, { useState, useContext, useEffect, useCallback, useLayoutEffect } from 'react'
-import { StyleSheet, Text } from 'react-native'
-import { Surface } from 'react-native-paper'
+import { StyleSheet, View } from 'react-native'
+import { Surface, Banner, ActivityIndicator } from 'react-native-paper'
 import { FlatList } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { interpret } from 'xstate'
 import { useService } from '@xstate/react'
 
+import Colours from '../styles/Colours'
 import { NavContext } from '../contexts'
 import { FetchMachineContext } from '../@types/machines'
 import fetchMachine from '../machines/fetchMachine'
@@ -23,11 +24,10 @@ fetchService
 
 export default function AllNewsScreen () {
   const [fetchMState, fetchMSend] = useService(fetchService)
-  const _getFromContext = (prop: keyof FetchMachineContext) => fetchMState.context[prop]
 
   const [articles, setArticles] = useState<Article[]>([])
-  const [isThisScreenLoading, setThisScreenLoading] = useState(true)
-  const [isErrorBannerVisible, setErrorBannerVisible] = useState(true)
+  const [isThisScreenLoading, setThisScreenLoading] = useState(false)
+  const [isErrorBannerVisible, setErrorBannerVisible] = useState(false)
   const [errorBannerMessage, setErrorBannerMessage] = useState('')
 
   const navigation = useNavigation()
@@ -39,35 +39,7 @@ export default function AllNewsScreen () {
     sortBy: 'popularity'
   }
 
-  /* @TODO: 
-    When this component mounts for the first time, fetch Top-Headlines articles
-    and store them in `context.lastResponse`
-  */
-  useLayoutEffect(() => {
-    fetchMSend('FETCH', { query: defaultQuery })
-  }, [])
-
-  useEffect(() => {
-    switch(fetchMState.value) {
-      case 'OK': 
-        setArticles(_getFromContext('lastResponse')['articles'])
-      case 'ERROR': 
-        console.log('Show react-native-paper Banner and ask if user want to retry')
-      case 'FAILURE': 
-        console.log('Show react-native-paper Banner and ask if user want to retry')
-    }
-  }, [fetchMState])
-
-  /* @TODO:
-    When user switches to this tab, the header title will be changed to `HEADLINES`
-  */
-  useEffect(() => {
-    // @ts-ignore
-    return navigation.addListener('tabPress', () => {
-      setHeader('Headlines')
-    })
-  }, [navigation])
-
+  const _getFromContext = (prop: keyof FetchMachineContext) => fetchMState.context[prop]
   const _itemRenderer = useCallback(({ item }) => {
     const { author, source, url, title, urlToImage, publishedAt, content } = item
     return (
@@ -82,16 +54,88 @@ export default function AllNewsScreen () {
       />
     )
   }, [fetchMState])
+  const _bannerActionDefaultOnPress = () => {
+    setErrorBannerVisible('false')
+  }
+
+  /* @TODO:
+    When user switches to this tab, the header title will be changed to `HEADLINES`
+  */
+  useEffect(() => {
+    // @ts-ignore
+    return navigation.addListener('tabPress', () => {
+      setHeader('Headlines')
+    })
+  }, [navigation])
+
+  /* @TODO: 
+    When this component mounts for the first time, fetch Top-Headlines articles
+    and store them in `context.lastResponse`
+  */
+  useLayoutEffect(() => {
+    fetchMSend('FETCH', { query: defaultQuery })
+  }, [])
+
+  useEffect(() => {
+    /* @Notes: 
+        (Q) Why isn't a `switch-case` appropriate here? 
+        (A) Because this code block while be evaluated periodically
+    */
+
+    if (fetchMState.value == 'OK') {
+      setArticles(_getFromContext('lastResponse')['articles'])
+    }
+    if (fetchMState.value == 'LOADING') {
+      setThisScreenLoading(true)
+    }
+    if (fetchMState.value == 'OK') {
+      setThisScreenLoading(false)
+    }
+    if (fetchMState.value == 'ERROR') {
+      setErrorBannerVisible(true)
+    }
+    if (fetchMState.value == 'FAILURE') {
+      setErrorBannerVisible(true)
+    }
+  }, [fetchMState])
 
   return (
     <Surface style={styles.container}>
       <SearchBar />
-      <Surface style={styles.body}>
-        <FlatList 
+      <Banner
+        visible={isErrorBannerVisible}
+        style={styles.errorBanner}
+        actions={[
+          (fetchMState.value == 'FAILURE') && {
+            label: 'RETRY',
+            onPress: () => {
+              _bannerActionDefaultOnPress()
+              fetchMSend('RETRY')
+            }
+          },
+          (fetchMState.value == 'ERROR') && {
+            label: 'CLOSE',
+            onPress: _bannerActionDefaultOnPress
+          }
+        ]}
+      >
+        {errorBannerMessage}
+      </Banner>
+      <View style={styles.body}>
+        {isThisScreenLoading && (
+          <ActivityIndicator
+            style={styles.spinnerContainer}
+            animating={isThisScreenLoading}
+            color={Colours.Purple1}
+            size={48}
+          />
+        )}
+        <FlatList
           data={articles}
           renderItem={_itemRenderer}
+          keyExtractor={(item, index) => `${index}-${item.url}`}
         />
-      </Surface>
+      </View>
     </Surface>
   )
 }
@@ -103,15 +147,21 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'stretch',
   },
-
+  spinnerContainer: {
+    alignSelf: 'center',
+    paddingVertical: 10
+  },
+  errorBanner: {
+    backgroundColor: Colours.LavenderLight,
+    elevation: 8,
+  },
   body: {
-    flex: 11,
+    flex: 9,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 7
   },
-}) 
+})
 
-/* @Reference: for replacing Card.Cover: 
+/* @Reference: for replacing Card.Cover:
     https://github.com/callstack/react-native-paper/blob/212aa73715f157e1a77f8738859a608a543ba04c/src/components/Card/CardCover.tsx
 */
