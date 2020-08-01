@@ -18,6 +18,7 @@ console.disableYellowBox = true
 const fetchService = interpret(fetchMachine)
 fetchService.start()
 
+/* @TODO: For debugging */
 fetchService
   .onTransition(state => console.log('STATE: ', state))
   .onEvent(event => console.log('EVENT: ', event))
@@ -93,9 +94,11 @@ export default function AllNewsScreen () {
     }
     if (fetchMState.value == 'ERROR') {
       setErrorBannerVisible(true)
+      setErrorBannerMessage(_getFromContext('lastResponse')['message'])
     }
     if (fetchMState.value == 'FAILURE') {
       setErrorBannerVisible(true)
+      setErrorBannerMessage('Something went wrong! Please retry!')
     }
   }, [fetchMState])
 

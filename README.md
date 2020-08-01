@@ -1,15 +1,16 @@
 # News Feeder
 
-`Still In Progess`
-
-Code submission for the 5th week's assignment of the 2020 React Native course organised by *Facebook Developers' Circle Hanoi*.
+Code submission for the 5th week's assignment of the 2020 *React Native* course organised by *Facebook Developers' Circle Hanoi*.
 
 ## Screenshots
 
+<img src='./public/screencast.gif' alt='screenshots' width=30% height=30%/>
 
 ## Features
 
+- [x] Fetch news from *NewsAPI*
 - [x] Different tabs for different categories of news articles
+- [ ] Overlay effect for header and search bar
 - [ ] Pull to update/Infiinite scrolling/Pagination
 - [ ] Cacheable image component
 
