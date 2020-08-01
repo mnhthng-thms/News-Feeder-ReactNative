@@ -1,4 +1,4 @@
-import { Machine, assign, DoneEventObject } from 'xstate'
+import { Machine, assign } from 'xstate'
 import {
   FetchMachineContext,
   FetchMachineStateSchema,

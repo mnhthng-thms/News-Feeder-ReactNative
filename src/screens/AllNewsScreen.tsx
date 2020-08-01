@@ -26,7 +26,9 @@ export default function AllNewsScreen () {
   const _getFromContext = (prop: keyof FetchMachineContext) => fetchMState.context[prop]
 
   const [articles, setArticles] = useState<Article[]>([])
-  const [isThisScreenLoading, setIsThisScreenLoading] = useState(true)
+  const [isThisScreenLoading, setThisScreenLoading] = useState(true)
+  const [isErrorBannerVisible, setErrorBannerVisible] = useState(true)
+  const [errorBannerMessage, setErrorBannerMessage] = useState('')
 
   const navigation = useNavigation()
   const { setHeader } = useContext(NavContext)
