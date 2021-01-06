@@ -27,7 +27,7 @@
     "@react-navigation/stack": "^5.7.1",
     "@types/ramda": "^0.27.12",
     "@xstate/react": "^0.8.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "expo": "~38.0.8",
     "expo-status-bar": "^1.0.2",
     "formik": "^2.1.5",
